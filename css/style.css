@@ -1,0 +1,453 @@
+
+:root  {
+
+--bg:#0b1220;
+  --panel:#152238;
+  --panel2:#1b2b43;
+  --line:#344963;
+  --txt:#eef4ff;
+  --muted:#aab8cc;
+  --red:#d83d57;
+  --blue:#287fd1;
+  --gold:#d9b45c;
+  --green:#42d5a8}
+
+*  {
+
+box-sizing:border-box}
+
+body  {
+
+margin:0;
+  background:linear-gradient(145deg,#0a1220,#142139);
+  color:var(--txt);
+  font-family:Arial,"Noto Sans JP",sans-serif}
+
+.wrap  {
+
+max-width:1450px;
+  margin:auto;
+  padding:20px}
+
+.top  {
+
+display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px}
+
+h1  {
+
+font-size:clamp(22px,3vw,32px);
+  margin:0}
+
+.sub,.hint  {
+
+color:var(--muted);
+  font-size:12px;
+  margin-top:6px}
+
+button  {
+
+border:0;
+  border-radius:9px;
+  padding:11px 15px;
+  font-weight:800;
+  cursor:pointer}
+
+.primary  {
+
+background:linear-gradient(100deg,#00cfc9,#50e5c0);
+  color:#06232b}
+
+.ghost  {
+
+background:#293b55;
+  color:#eff5ff;
+  border:1px solid #49617f}
+
+.layout  {
+
+display:grid;
+  grid-template-columns:300px minmax(0,1fr);
+  gap:16px}
+
+.panel  {
+
+background:#142138;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:16px;
+  box-shadow:0 10px 30px #0003}
+
+.panel h2  {
+
+font-size:18px;
+  margin:0 0 12px}
+
+.scores,.totals  {
+
+display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:16px}
+
+.score  {
+
+padding:14px;
+  border-radius:12px;
+  text-align:center}
+
+.score.a,.total.a  {
+
+background:#71283c;
+  border:1px solid #db526b}
+
+.score.b,.total.b  {
+
+background:#1c4d82;
+  border:1px solid #398ce1}
+
+.score b  {
+
+display:block;
+  font-size:29px;
+  margin-top:4px}
+
+.matches  {
+
+display:grid;
+  gap:7px;
+  max-height:68vh;
+  overflow:auto}
+
+.match  {
+
+width:100%;
+  text-align:left;
+  background:#1b2c44;
+  color:var(--txt);
+  border:1px solid #3a506d}
+
+.match.active  {
+
+outline:2px solid var(--gold)}
+
+.match small  {
+
+display:block;
+  color:#aebdd0;
+  margin-top:4px}
+
+.editorHead  {
+
+display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  margin-bottom:14px}
+
+.editorHead strong  {
+
+font-size:21px}
+
+.tag  {
+
+font-size:11px;
+  border-radius:20px;
+  background:#293d59;
+  padding:5px 9px}
+
+.songs  {
+
+display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px}
+
+.song  {
+
+background:#192a42;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:13px}
+
+.song.a  {
+
+border-top:4px solid var(--red)}
+
+.song.b  {
+
+border-top:4px solid var(--blue)}
+
+.song h3  {
+
+margin:0 0 9px;
+  font-size:16px}
+
+.field  {
+
+margin-top:8px}
+
+.field label  {
+
+display:block;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:4px}
+
+input,select  {
+
+width:100%;
+  min-width:0;
+  background:#0d192a;
+  border:1px solid #435a78;
+  color:var(--txt);
+  border-radius:8px;
+  padding:9px;
+  font:inherit}
+
+.song .field  {
+
+margin-top:8px}
+
+.block  {
+
+margin-top:14px;
+  border:1px solid var(--line);
+  background:#101d30;
+  border-radius:13px;
+  padding:13px}
+
+.blockHead  {
+
+display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-bottom:10px}
+
+.blockHead h3  {
+
+margin:0;
+  font-size:17px}
+
+.plays  {
+
+display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px}
+
+.songResult {
+  margin-top:12px;
+  padding:12px;
+  border:1px solid #405774;
+  border-radius:10px;
+  background:#14243a
+}
+.songResult h4 { margin:0 0 10px; font-size:14px; line-height:1.5 }
+.songResult .fields { margin-top:8px }
+.resultStatus {
+  margin-top:9px; padding:9px 11px; border-radius:8px;
+  background:#26364d; color:#e7effb; font-weight:900; text-align:center;
+  border:1px solid #526985
+}
+.resultStatus.winA { background:#70283b; border:2px solid #ff7188; color:#fff }
+.resultStatus.winB { background:#174d83; border:2px solid #63b4ff; color:#fff }
+.resultStatus.draw { background:#594a20; border:2px solid #e6c35d; color:#fff2c2 }
+.songName { color:#fff; font-weight:900 }
+/* 勝利したチームの入力欄を黄色い枠で強調 */
+.field.songWinner { outline:3px solid #ffd83d; outline-offset:2px; border-radius:9px; padding:7px; background:#4a401d; }
+.field.songWinner label { color:#fff2a8; }
+@media(max-width:700px){ .plays{grid-template-columns:1fr} }
+
+.play  {
+
+background:#1a2b43;
+  border:1px solid #3b526e;
+  border-radius:10px;
+  padding:11px}
+
+.play.a  {
+
+border-left:4px solid var(--red)}
+
+.play.b  {
+
+border-left:4px solid var(--blue)}
+
+.play h4  {
+
+margin:0 0 8px;
+  font-size:14px}
+
+.fields  {
+
+display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px}
+
+.extras  {
+
+margin-top:8px}
+
+.breakdown  {
+
+font-size:12px;
+  color:#c7d5e8;
+  line-height:1.7;
+  background:#0c1828;
+  border-radius:7px;
+  padding:8px;
+  margin-top:8px}
+
+.earned  {
+
+display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 10px;
+  background:#0c1828;
+  border-radius:8px;
+  margin-top:8px}
+
+.earned b  {
+
+font-size:19px;
+  color:var(--green)}
+
+.songSum  {
+
+ display:flex;
+ flex-direction:column;
+ gap:8px;
+  padding:10px;
+  background:#24344d;
+  border-radius:8px;
+  margin-top:10px;
+  font-weight:800}
+
+.songSumTeams {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.songSumA,.songSumB {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:9px 11px;
+  border-radius:8px;
+  background:#142138;
+}
+.songSumA { border-left:4px solid var(--red); }
+.songSumB { border-left:4px solid var(--blue); }
+.songSumTeams b { font-size:18px; }
+
+.grand  {
+
+margin-top:15px;
+  padding:15px;
+  border:1px solid var(--gold);
+  border-radius:12px;
+  background:#332b20}
+
+.grand h3  {
+
+margin:0 0 10px}
+
+.total  {
+
+text-align:center;
+  border-radius:9px;
+  padding:10px}
+
+.total b  {
+
+display:block;
+  font-size:27px}
+
+.actions  {
+
+display:flex;
+  justify-content:flex-end;
+  gap:9px;
+  margin-top:15px}
+
+.summary  {
+
+width:100%;
+  border-collapse:collapse;
+  font-size:13px}
+
+.summary th,.summary td  {
+
+padding:10px;
+  border-bottom:1px solid var(--line);
+  text-align:left}
+
+.summary th  {
+
+color:#afc1d8}
+
+.hidden  {
+
+display:none!important}
+
+/* チーム総得点は初期状態で非表示。個別の曲ごとの獲得ポイントは表示する。 */
+body.team-totals-hidden .scores,
+body.team-totals-hidden .grand .totals {
+  display:none!important;
+}
+
+.toast  {
+
+display:none;
+  position:fixed;
+  bottom:18px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#17483e;
+  color:#e4fff6;
+  padding:12px 18px;
+  border-radius:9px;
+  z-index:9}
+
+@media(max-width:900px)  {
+
+.layout  {
+
+grid-template-columns:1fr}
+
+.matches  {
+
+max-height:230px}
+
+.plays  {
+
+grid-template-columns:1fr}
+
+}
+
+@media(max-width:620px)  {
+
+.wrap  {
+
+padding:10px}
+
+.songs  {
+
+grid-template-columns:1fr}
+
+.top,.editorHead  {
+
+align-items:flex-start;
+  flex-direction:column}
+
+.fields  {
+
+grid-template-columns:1fr 1fr}
+
+}
+
