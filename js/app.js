@@ -346,7 +346,8 @@ function switchDepartment(value){
   currentDepartment = value === 'serious' ? 'serious' : 'enjoy';
   $('departmentLabel').textContent = currentDepartment === 'serious'
     ? 'beatmania IIDX ガチ部門' : 'beatmania IIDX エンジョイ部門';
-  $('summaryButton').style.display = currentDepartment === 'enjoy' ? '' : 'none';
+  // 両部門とも全体集計を表示できるようにする。
+  $('summaryButton').style.display = '';
   $('allA').textContent = '0 pt';
   $('allB').textContent = '0 pt';
   selectedMatchId = '';
@@ -688,7 +689,72 @@ function deleteMatchResult(matchId){
     reload();
   });
 }
+
+function seriousBattleSummary(modeData, mode, teamA, teamB) {
+  if (!modeData || !modeData.songA || !modeData.songB) return '未入力';
+  const lowerWins = mode === 'bp';
+  const metric = lowerWins ? 'BP' : 'EX';
+  const compare = (a, b) => {
+    a = Number(a || 0);
+    b = Number(b || 0);
+    if (a === b) return '引分';
+    return ((lowerWins && a < b) || (!lowerWins && a > b)) ? 'A勝' : 'B勝';
+  };
+  const one = (song, a, b) => `${esc(song)}：A ${Number(a || 0)} / B ${Number(b || 0)}（${compare(a,b)}）`;
+  return `<div>${one(modeData.songA, modeData.aOnA, modeData.aOnB)}</div><div>${one(modeData.songB, modeData.bOnA, modeData.bOnB)}</div>`;
+}
+
+function seriousSummaryView(){
+  $('editor').classList.add('hidden');
+  $('summary').classList.remove('hidden');
+
+  let totalA = 0;
+  let totalB = 0;
+  const rows = SERIOUS_MATCHES.map(m => {
+    const r = seriousResult(m.id);
+    const a = Number(r && r.totalA || 0);
+    const b = Number(r && r.totalB || 0);
+    totalA += a;
+    totalB += b;
+    const status = r ? '入力済み' : '未入力';
+    const bp = seriousBattleSummary(r && r.bp, 'bp', m.teamA, m.teamB);
+    const ex = seriousBattleSummary(r && r.ex, 'ex', m.teamA, m.teamB);
+    return `<tr>
+      <td>第${m.round}R・第${m.number}試合</td>
+      <td>${esc(m.teamA)} vs ${esc(m.teamB)}<br><small>${esc(m.category)}</small></td>
+      <td>${bp}</td>
+      <td>${ex}</td>
+      <td>${status}</td>
+      <td>${a} pt</td>
+      <td>${b} pt</td>
+      <td><button class="ghost" onclick="openSeriousMatch('${m.id}')">編集</button>${r ? ` <button class="ghost" style="border-color:#d85a6a;color:#ffdce1" onclick="deleteSeriousResult('${m.id}')">保存データ削除</button>` : ''}</td>
+    </tr>`;
+  }).join('');
+
+  $('summary').innerHTML = `<h2>ガチ部門 全体集計</h2>
+    <table class="summary">
+      <thead><tr><th>試合</th><th>対戦</th><th>BP数バトル</th><th>EXSCOREバトル</th><th>状態</th><th>Aチーム</th><th>Bチーム</th><th>操作</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="grand">
+      <h3>ガチ部門 大会総得点</h3>
+      <div class="totals">
+        <div class="total a">TEAM A<b>${totalA} pt</b></div>
+        <div class="total b">TEAM B<b>${totalB} pt</b></div>
+      </div>
+    </div>`;
+}
+
 function summaryView(){
+  if (!D) {
+    toast('集計データが読み込まれていません。');
+    return;
+  }
+  if (currentDepartment === 'serious') {
+    seriousSummaryView();
+    return;
+  }
+
   $('editor').classList.add('hidden');
   $('summary').classList.remove('hidden');
   let A=0,  B=0,  rows=[...D.matches].sort((a,  b)=>+a['ラウンド']-+b['ラウンド']||+a['対戦番号']-+b['対戦番号']).map(m=>{
