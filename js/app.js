@@ -1,4 +1,3 @@
-
 let D=null, selectedMatchId='';
 let currentDepartment = 'serious';
 let seriousSelectedMatchId = '';
@@ -22,7 +21,10 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,  c=>({
   '&':'&amp;',  '<':'&lt;',  '>':'&gt;',  '"':'&quot;',  "'":'&#39;'
 }
 [c]));
+const TOKEN_STORAGE_KEY = 'dekaikusa2026_iidx_github_token';
 let githubToken = '';
+// 同じブラウザ・同じサイトで再読み込み後も管理者トークンを利用できるようにする。
+try { githubToken = localStorage.getItem(TOKEN_STORAGE_KEY) || ''; } catch (e) { console.warn('トークンをブラウザから読み込めません。', e); }
 const GITHUB_OWNER = location.pathname.split('/').filter(Boolean)[0] ? '' : '';
 const GITHUB_REPO = 'dekaikusa2026_iidx';
 const DATA_PATH = 'data/scores.json';
@@ -31,11 +33,28 @@ let fileSha = '';
 let saveQueue = Promise.resolve();
 
 function setGithubToken(){
-  const value = prompt('GitHub Fine-grained Personal Access Tokenを入力してください。\\nトークンはこのページを開いている間だけメモリに保持します。');
+  const value = prompt('GitHub Fine-grained Personal Access Tokenを入力してください。\\nトークンはこのブラウザに保存され、次回以降も利用できます。');
   if(value === null) return;
-  githubToken = value.trim();
-  if(!githubToken){ toast('トークンを入力してください。'); return; }
-  toast('トークンを一時設定しました。');
+  const token = value.trim();
+  if(!token){ toast('トークンを入力してください。'); return; }
+  githubToken = token;
+  try {
+    localStorage.setItem(TOKEN_STORAGE_KEY, githubToken);
+    toast('トークンをブラウザに保存しました。');
+  } catch (e) {
+    console.warn('トークンをブラウザに保存できません。', e);
+    toast('トークンを一時設定しましたが、ブラウザには保存できませんでした。');
+  }
+}
+function clearGithubToken(){
+  githubToken = '';
+  try {
+    localStorage.removeItem(TOKEN_STORAGE_KEY);
+    toast('保存済みトークンを削除しました。');
+  } catch (e) {
+    console.warn('ブラウザに保存されたトークンを削除できません。', e);
+    toast('トークンをメモリから削除しましたが、ブラウザの保存値を削除できませんでした。');
+  }
 }
 function getOwner(){
   if(repositoryOwner) return repositoryOwner;
