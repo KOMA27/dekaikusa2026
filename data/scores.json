@@ -500,31 +500,7 @@
       "更新日時": "2026-11-06T05:55:34.668Z"
     }
   ],
-  "seriousResults": [
-    {
-      "matchId": "S-R1",
-      "category": "SCRATCH",
-      "bp": {
-        "songA": "199024club -Re:BounceKiller- [ANOTHER]",
-        "songB": "Be quiet [LEGGENDARIA]",
-        "aOnA": 12,
-        "aOnB": 34,
-        "bOnA": 56,
-        "bOnB": 78
-      },
-      "ex": {
-        "songA": "Caterpillar [ANOTHER]",
-        "songB": "Don't believe the hype [ANOTHER]",
-        "aOnA": 1234,
-        "aOnB": 2345,
-        "bOnA": 3456,
-        "bOnB": 4321
-      },
-      "totalA": 2,
-      "totalB": 2,
-      "updatedAt": "2026-11-06T05:51:12.875Z"
-    }
-  ],
+  "seriousResults": [],
   "version": 1,
-  "updatedAt": "2026-11-06T05:55:34.982Z"
+  "updatedAt": "2026-11-06T08:09:05.376Z"
 }
