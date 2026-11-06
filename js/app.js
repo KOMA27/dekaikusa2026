@@ -371,7 +371,7 @@ function seriousDraw(){
   $('matches').innerHTML=SERIOUS_MATCHES.map(m=>{
     const r=seriousResult(m.id);
     return `<button class="match ${seriousSelectedMatchId===m.id?'active':''}" onclick="openSeriousMatch('${m.id}')">
-      第${m.round}ラウンド / 第${m.number}試合
+      第${m.round}ラウンド
       <small>${esc(m.teamA)} vs ${esc(m.teamB)}（${m.category}）</small>
       <small>${r?'入力済み':'未入力'}</small>
     </button>`;
@@ -426,7 +426,7 @@ function seriousModeForm(prefix,title,category,data,playerA,playerB){
 function renderSeriousEditor(){
   const m=seriousMatch(seriousSelectedMatchId); if(!m)return;
   const r=seriousResult(m.id)||{};
-  $('editor').innerHTML=`<div class="editorHead"><div><strong>第${m.round}ラウンド / 第${m.number}試合</strong><div class="sub">${esc(m.teamA)}（A） vs ${esc(m.teamB)}（B）</div></div><span class="tag">${r.matchId?'保存済み・編集可能':'新規入力'}</span></div>
+  $('editor').innerHTML=`<div class="editorHead"><div><strong>第${m.round}ラウンド</strong><div class="sub">${esc(m.teamA)}（A） vs ${esc(m.teamB)}（B）</div></div><span class="tag">${r.matchId?'保存済み・編集可能':'新規入力'}</span></div>
     <div class="hint">カテゴリ：${m.category} ／ 課題曲はこのカテゴリから選択します。${m.id==='S-R4'?' ／ 大将戦：1曲の勝利につき2pt（引き分けは両チーム2pt）':' ／ 通常戦：1曲の勝利につき1pt（引き分けは両チーム1pt）'}</div>
     ${seriousModeForm('bp','BP数バトル',m.category,r.bp||{},m.teamA,m.teamB)}
     ${seriousModeForm('ex','EXSCOREバトル',m.category,r.ex||{},m.teamA,m.teamB)}
@@ -516,7 +516,7 @@ function draw(){
   $('allB').textContent=b+' pt';
   $('matches').innerHTML=[...D.matches].sort((x,  y)=>+x['ラウンド']-+y['ラウンド']||+x['対戦番号']-+y['対戦番号']).map(m=>{
     let r=rec(m['試合ID']);
-    return `<button class="match ${selectedMatchId===String(m['試合ID'])?'active':''}" onclick="openMatch('${esc(m['試合ID'])}')">第${esc(m['ラウンド'])}ラウンド / 第${esc(m['対戦番号'])}試合<small>${esc(person(m['AチームプレイヤーID'])['プレイヤー名'])} vs ${esc(person(m['BチームプレイヤーID'])['プレイヤー名'])}</small>
+    return `<button class="match ${selectedMatchId===String(m['試合ID'])?'active':''}" onclick="openMatch('${esc(m['試合ID'])}')">第${esc(m['ラウンド'])}ラウンド<small>${esc(person(m['AチームプレイヤーID'])['プレイヤー名'])} vs ${esc(person(m['BチームプレイヤーID'])['プレイヤー名'])}</small>
 <small>${r?'入力済み':'未入力'}</small>
 </button>`
   }).join('')||'対戦組み合わせがありません。';
@@ -567,7 +567,7 @@ function renderEditor(){
 
   $('editor').innerHTML = `<div class="editorHead">
     <div>
-      <strong>第${esc(m['ラウンド'])}ラウンド / 第${esc(m['対戦番号'])}試合</strong>
+      <strong>第${esc(m['ラウンド'])}ラウンド</strong>
       <div class="sub">${esc(a['プレイヤー名'])}（A） vs ${esc(b['プレイヤー名'])}（B）</div>
     </div>
     <span class="tag">${r['試合ID'] ? '保存済み・編集可能' : '新規入力'}</span>
@@ -671,7 +671,7 @@ function deleteMatchResult(matchId){
     return;
   }
 
-  const label = `第${target['ラウンド']}ラウンド／第${target['対戦番号']}試合`;
+  const label = `第${target['ラウンド']}ラウンド`;
   if (!confirm(`${label} の保存済み結果を削除します。\\n試合の組み合わせやプレイヤー情報は削除されません。\\nよろしいですか？`)) {
     return;
   }
@@ -720,7 +720,7 @@ function seriousSummaryView(){
     const bp = seriousBattleSummary(r && r.bp, 'bp', m.teamA, m.teamB);
     const ex = seriousBattleSummary(r && r.ex, 'ex', m.teamA, m.teamB);
     return `<tr>
-      <td>第${m.round}R・第${m.number}試合</td>
+      <td>第${m.round}ラウンド</td>
       <td>${esc(m.teamA)} vs ${esc(m.teamB)}<br><small>${esc(m.category)}</small></td>
       <td>${bp}</td>
       <td>${ex}</td>
@@ -762,7 +762,7 @@ function summaryView(){
     A+=a;
     B+=b;
     return `<tr>
-<td>第${esc(m['ラウンド'])}R・${esc(m['対戦番号'])}試合</td>
+<td>第${esc(m['ラウンド'])}ラウンド</td>
 <td>${esc(person(m['AチームプレイヤーID'])['プレイヤー名'])} vs ${esc(person(m['BチームプレイヤーID'])['プレイヤー名'])}</td>
 <td>${r?'入力済み':'未入力'}</td>
 <td>${a} pt</td>
